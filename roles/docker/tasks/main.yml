@@ -1,0 +1,5 @@
+- name: Install Docker via Ubuntu package
+  apt: name=docker.io state=latest
+
+- name: Start docker service
+  service: name=docker state=started enabled=yes
