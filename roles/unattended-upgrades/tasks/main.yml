@@ -1,0 +1,15 @@
+---
+- name: Install unattended-upgrade packages
+  apt:
+    pkg:
+    - unattended-upgrades
+    - update-notifier-common  # needed for reboot
+    - bsd-mailx  # needed for mails
+
+- name: Configure apt for unattended upgrades
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/apt/apt.conf.d/{{ item }}"
+  loop:
+    - 20auto-upgrades
+    - 50unattended-upgrades

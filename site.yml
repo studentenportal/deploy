@@ -3,6 +3,7 @@
   roles:
   - base
   - firewall
+  - unattended-upgrades
   - docker
   - msmtpd
   - studentenportal
