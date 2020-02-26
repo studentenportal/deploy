@@ -1,0 +1,10 @@
+---
+
+- name: Install msmtpd
+  apt: pkg=msmtp-mta state=latest
+
+- name: Install msmtpd config file
+  template: src=msmtprc.j2 dest=/etc/msmtprc
+
+- name: Install msmtpd aliases file
+  copy: src=aliases dest=/etc/aliases

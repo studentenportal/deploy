@@ -1,0 +1,10 @@
+account default
+host asmtp.mail.hostpoint.ch
+tls on
+tls_trust_file /etc/ssl/certs/ca-certificates.crt
+syslog on
+aliases /etc/aliases
+auth on
+user team@studentenportal.ch
+password {{ lookup('passwordstore', 'email/team@studentenportal.ch directory=pass/') }}
+from team@studentenportal.ch
