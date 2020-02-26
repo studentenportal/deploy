@@ -5,3 +5,6 @@
   apt:
     pkg:
     - python-apt
+
+- name: Upgrade system
+  apt: upgrade=yes
