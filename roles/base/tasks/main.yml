@@ -8,3 +8,16 @@
 
 - name: Upgrade system
   apt: upgrade=yes
+
+- name: Add users
+  user:
+    name: "{{ item.name }}"
+    state: present
+    groups: "{{ item.groups }}"
+  loop: "{{ users }}"
+
+- name: Add SSH keys
+  authorized_key:
+    user: "{{ item.name }}"
+    key: "{{ lookup('file', './files/id_rsa.' + item.name + '.pub') }}"
+  loop: "{{ users }}"
