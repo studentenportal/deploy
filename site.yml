@@ -2,5 +2,7 @@
 - hosts: all
   roles:
   - base
+  - firewall
   - docker
   - msmtpd
+  - studentenportal
