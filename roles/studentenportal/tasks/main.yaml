@@ -45,3 +45,28 @@
   loop:
     - postgres-data
     - media
+
+# https://github.com/pypa/pip/issues/5366
+- name: Install newer pip
+  pip:
+    name: pip
+    state: latest
+    extra_args: --user
+  become: true
+  become_user: studentenportal
+
+- name: Install pip packages needed for ansible and docker
+  pip:
+    name: docker-compose
+    state: latest
+    extra_args: --user
+  become: true
+  become_user: studentenportal
+
+- name: Set up studentenportal docker containers
+  docker_compose:
+    project_src: ~/web/
+    files: docker-compose-production.yml
+  become: true
+  become_user: studentenportal
+
