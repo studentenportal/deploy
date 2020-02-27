@@ -35,3 +35,13 @@
     version: deployment
   become: true
   become_user: studentenportal
+
+- name: Create data directories
+  file:
+    path: "/home/studentenportal/{{ item }}"
+    state: directory
+    owner: studentenportal
+    group: studentenportal
+  loop:
+    - postgres-data
+    - media
