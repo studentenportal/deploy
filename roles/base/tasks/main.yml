@@ -4,7 +4,8 @@
 - name: Install packages needed for ansible
   apt:
     pkg:
-    - python-apt
+      # - python3-apt
+      - python3-pip
 
 - name: Upgrade system
   apt: upgrade=yes
