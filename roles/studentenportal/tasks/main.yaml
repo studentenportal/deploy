@@ -1,5 +1,13 @@
 ---
 
+- name: Create studentenportal user
+  user:
+    name: studentenportal
+    state: present
+    groups: docker
+    shell: /usr/sbin/nologin
+
+
 - name: Open firewall ports
   include_role: name=firewall tasks_from=open-port
   vars:
@@ -7,5 +15,23 @@
       port: "{{ item }}"
       proto: tcp
   loop:
-    - 80
-    - 443
+    - 80   # HTTP
+    - 443  # HTTPS
+
+- name: Install docker environment file
+  template:
+   src: studentenportal.env
+   dest: /home/studentenportal/studentenportal.env
+   owner: studentenportal
+   group: studentenportal
+   mode: 0600
+
+
+- name: Clone studentenportal web repository
+  git:
+    repo: https://github.com/studentenportal/web/
+    dest: /home/studentenportal/web
+    # FIXME
+    version: deployment
+  become: true
+  become_user: studentenportal
