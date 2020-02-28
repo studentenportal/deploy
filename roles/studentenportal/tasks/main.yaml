@@ -79,3 +79,11 @@
   become_user: studentenportal
   register: res
   changed_when: "'+ Account already registered!' not in res.stdout"
+
+- name: Do initial dehydrated run
+  command:
+    cmd: docker exec -it {{ docker_result.ansible_facts.nginx | list | first }} dehydrated --cron
+  become: true
+  become_user: studentenportal
+  register: res
+  changed_when: "'Skipping renew!' not in res.stdout"
