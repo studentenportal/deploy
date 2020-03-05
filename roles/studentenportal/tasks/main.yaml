@@ -26,7 +26,6 @@
     group: studentenportal
     mode: 0600
 
-
 - name: Clone studentenportal web repository
   git:
     repo: https://github.com/studentenportal/web/
@@ -64,6 +63,11 @@
   become: true
   become_user: studentenportal
 
+- name: Get user information
+  getent:
+    database: passwd
+    key: studentenportal
+
 - name: Set up studentenportal docker containers
   docker_compose:
     project_src: ~/web/
@@ -71,6 +75,9 @@
   become: true
   become_user: studentenportal
   register: docker_result
+  environment:
+    UID: "{{ getent_passwd['studentenportal'][1] }}"
+    GID: "{{ getent_passwd['studentenportal'][2] }}"
 
 - name: Set up dehydrated account
   command:
