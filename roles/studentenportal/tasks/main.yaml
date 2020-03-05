@@ -20,11 +20,11 @@
 
 - name: Install docker environment file
   template:
-   src: studentenportal.env
-   dest: /home/studentenportal/studentenportal.env
-   owner: studentenportal
-   group: studentenportal
-   mode: 0600
+    src: studentenportal.env
+    dest: /home/studentenportal/studentenportal.env
+    owner: studentenportal
+    group: studentenportal
+    mode: 0600
 
 
 - name: Clone studentenportal web repository
