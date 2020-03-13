@@ -30,8 +30,6 @@
   git:
     repo: https://github.com/studentenportal/web/
     dest: /home/studentenportal/web
-    # FIXME
-    version: deployment
   become: true
   become_user: studentenportal
 
