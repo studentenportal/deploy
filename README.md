@@ -72,8 +72,12 @@ by a proper one by running `dehydrated` via Ansible.`
 
 ## Deploying
 
-To deploy, do the following:
+To deploy the Ansible-part, do the following:
 
 - Make sure you can access the server via SSH using key-based authentication.
 - Clone the "pass" repository so it's inside this repository under pass/
 - Run `ansible-playbook site.yml`
+
+To re-deploy the application docker container, run
+`./deploy/production/scripts/redeploy.sh` inside the `web/` repository on the
+server.
