@@ -42,7 +42,6 @@
   loop:
     - postgres-data
     - media
-    - dehydrated
 
 # https://github.com/pypa/pip/issues/5366
 - name: Install newer pip
