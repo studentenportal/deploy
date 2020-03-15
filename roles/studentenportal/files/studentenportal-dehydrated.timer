@@ -1,0 +1,8 @@
+[Unit]
+Description=Run dehydrated update daily
+
+[Timer]
+OnCalendar=daily
+
+[Install]
+WantedBy=timers.target

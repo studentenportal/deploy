@@ -1,0 +1,7 @@
+[Unit]
+Description=Run dehydrated update for studentenportal
+OnFailure=status-email@%n.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker exec -i web_nginx_1 dehydrated --cron

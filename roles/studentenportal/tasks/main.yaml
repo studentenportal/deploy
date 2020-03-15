@@ -92,3 +92,12 @@
   become_user: studentenportal
   register: res
   changed_when: "'Skipping renew!' not in res.stdout"
+
+- name: Install dehydrated systemd files
+  copy: src="studentenportal-dehydrated.{{ item }}" dest=/etc/systemd/system/
+  loop:
+    - timer
+    - service
+
+- name: Enable dehydrated timer
+  service: name=studentenportal-dehydrated.timer enabled=yes daemon_reload=yes

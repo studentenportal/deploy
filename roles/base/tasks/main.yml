@@ -27,3 +27,11 @@
     user: "{{ item.name }}"
     key: "{{ lookup('file', './files/id_rsa.' + item.name + '.pub') }}"
   loop: "{{ users }}"
+
+# See https://wiki.archlinux.org/index.php/Systemd/Timers#MAILTO
+
+- name: Install systemd-email
+  copy: src=systemd-email dest=/usr/local/bin/systemd-email mode=+x
+
+- name: Install status-email@.service
+  copy: src=status-email@.service dest=/etc/systemd/system/status-email@.service
