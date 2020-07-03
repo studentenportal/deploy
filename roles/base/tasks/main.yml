@@ -28,6 +28,12 @@
     key: "{{ lookup('file', './files/id_rsa.' + item.name + '.pub') }}"
   loop: "{{ users }}"
 
+- name: Install useful system tools
+  apt:
+    pkg:
+      - molly-guard
+      - htop
+
 # See https://wiki.archlinux.org/index.php/Systemd/Timers#MAILTO
 
 - name: Install systemd-email
