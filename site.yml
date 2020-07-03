@@ -1,9 +1,9 @@
 ---
 - hosts: all
   roles:
-  - base
-  - firewall
-  - unattended-upgrades
-  - docker
-  - msmtpd
-  - studentenportal
+    - { role: base, tags: ['base'] }
+    - { role: firewall, tags: ['firewall'] }
+    - { role: unattended-upgrades, tags: ['unattended-upgrades'] }
+    - { role: docker, tags: ['docker'] }
+    - { role: msmtpd, tags: ['msmtpd'] }
+    - { role: studentenportal, tags: ['studentenportal'] }
