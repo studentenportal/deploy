@@ -1,0 +1,11 @@
+- name: Start watchtower
+  docker_container:
+    name: watchtower
+    image: containrrr/watchtower:1.0.2
+    state: started
+    restart_policy: always
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    command: "--interval {{ watchtower_interval }} --cleanup"

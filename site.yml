@@ -5,5 +5,6 @@
     - { role: firewall, tags: ['firewall'] }
     - { role: unattended-upgrades, tags: ['unattended-upgrades'] }
     - { role: docker, tags: ['docker'] }
+    - { role: watchtower, tags: ['watchtower'] }
     - { role: msmtpd, tags: ['msmtpd'] }
     - { role: studentenportal, tags: ['studentenportal'] }
