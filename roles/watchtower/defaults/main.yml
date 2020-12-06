@@ -1,1 +1,1 @@
-watchtower_interval: 60 # seconds
+watchtower_interval: 900 # seconds

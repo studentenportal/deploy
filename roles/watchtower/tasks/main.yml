@@ -1,7 +1,7 @@
 - name: Start watchtower
   docker_container:
     name: watchtower
-    image: containrrr/watchtower:1.0.2
+    image: containrrr/watchtower:1.0.3
     state: started
     restart_policy: always
     labels:
