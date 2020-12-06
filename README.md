@@ -1,7 +1,6 @@
-# studentenportal.ch 2020 deployment
+# studentenportal.ch deployment
 
-The Studentenportal deployment currently deployed on studentenportal.ch,
-replacing the older "deploy" and "deploy-new" repositories.
+The Studentenportal deployment currently deployed on [studentenportal.ch](https://studentenportal.ch/).
 
 ## Bird's eye view
 
