@@ -35,13 +35,15 @@
 
 - name: Create data directories
   file:
-    path: "/home/studentenportal/{{ item }}"
+    path: "/home/studentenportal/{{ item.name }}"
     state: directory
-    owner: studentenportal
-    group: studentenportal
+    owner: "{{ item.owner }}"
+    group: "{{ item.owner }}"
   loop:
-    - postgres-data
-    - media
+    - name: postgres-data
+      owner: 999 # postgres uid
+    - name: media
+      owner: studentenportal
 
 # https://github.com/pypa/pip/issues/5366
 - name: Install newer pip
