@@ -1,3 +1,13 @@
+// Which dists to get updates from:
+// http://ch.archive.ubuntu.com/ubuntu/dists/
+Unattended-Upgrade::Allowed-Origins {
+        "${distro_id}:${distro_codename}";
+        "${distro_id}:${distro_codename}-security";
+        "${distro_id}:${distro_codename}-updates";
+//      "${distro_id}:${distro_codename}-proposed";
+//      "${distro_id}:${distro_codename}-backports";
+};
+
 // Split updates into minimal steps to simplify interruption of the process
 Unattended-Upgrade::MinimalSteps "true";
 
