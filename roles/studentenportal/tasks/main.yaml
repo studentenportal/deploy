@@ -80,7 +80,7 @@
 
 - name: Set up dehydrated account
   command:
-    cmd: docker exec -it {{ docker_result.ansible_facts.nginx | list | first }} dehydrated --register --accept-terms
+    cmd: docker exec -it {{ docker_result.services.nginx | list | first }} dehydrated --register --accept-terms
   become: true
   become_user: studentenportal
   register: res
@@ -88,7 +88,7 @@
 
 - name: Do initial dehydrated run
   command:
-    cmd: docker exec -it {{ docker_result.ansible_facts.nginx | list | first }} dehydrated --cron
+    cmd: docker exec -it {{ docker_result.services.nginx | list | first }} dehydrated --cron
   become: true
   become_user: studentenportal
   register: res
