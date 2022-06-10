@@ -109,7 +109,7 @@
     - sqlbackup.service
 
 - name: Enable timers
-  service: name="studentenportal-{{ item }}.timer" enabled=yes daemon_reload=yes
+  service: name="studentenportal-{{ item }}.timer" enabled=yes state=started daemon_reload=yes
   loop:
     - dehydrated
     - sqlbackup
