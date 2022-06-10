@@ -3,6 +3,7 @@
   roles:
     - { role: base, tags: ['base'] }
     - { role: firewall, tags: ['firewall'] }
+    - { role: backups, tags: ['backups'] }
     - { role: unattended-upgrades, tags: ['unattended-upgrades'] }
     - { role: docker, tags: ['docker'] }
     - { role: watchtower, tags: ['watchtower'] }

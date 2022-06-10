@@ -1,0 +1,19 @@
+# Inspired by duply example file.
+
+[Unit]
+Description=Duply backup
+After=local-fs.target time-sync.target
+Conflicts=shutdown.target
+Before=shutdown.target
+OnFailure=status-email@%n.service
+Documentation=https://www.duply.net/wiki/index.php/Duply-documentation
+
+[Service]
+Type=oneshot
+# HOME must point to root's home so that duply can locate the profile
+Environment="HOME=/root"
+ExecStart=/usr/bin/duply rootfs backup verify purge --force
+IOSchedulingClass=idle
+
+[Install]
+WantedBy=multi-user.target

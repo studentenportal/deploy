@@ -1,0 +1,17 @@
+- /proc
+- /sys
+- /tmp
+- /run
+- /var/log
+- /var/cache
+- /var/tmp
+- /usr
+- /lib
+- /boot
+- /dev
+- /root/.cache
+# Should not contain any data, only containers
+- /var/lib/docker/overlay2
+- /var/lib/docker/containers
+# Backed up into dumps separately
+- /home/studentenportal/postgres-data

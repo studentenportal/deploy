@@ -1,0 +1,11 @@
+GPG_PW='{{ lookup("passwordstore", "deploy/duply_backup directory=pass/") }}'
+
+TARGET='ftp://sl117.web.hostpoint.ch/duply-studentenportal'
+TARGET_USER='backup@studentenportal.ch'
+TARGET_PASS='{{ lookup("passwordstore", "vshsr/ftp-backup_backup@studentenportal.ch directory=pass/") }}'
+
+SOURCE='/'
+
+MAX_AGE=6M
+MAX_FULLBKP_AGE=1M
+DUPL_PARAMS="$DUPL_PARAMS --full-if-older-than $MAX_FULLBKP_AGE " 
