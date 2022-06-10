@@ -7,5 +7,5 @@ TARGET_PASS='{{ lookup("passwordstore", "vshsr/ftp-backup_backup@studentenportal
 SOURCE='/'
 
 MAX_AGE=6M
-MAX_FULLBKP_AGE=1M
+MAX_FULLBKP_AGE=2M
 DUPL_PARAMS="$DUPL_PARAMS --full-if-older-than $MAX_FULLBKP_AGE " 
