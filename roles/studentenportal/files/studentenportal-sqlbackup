@@ -1,0 +1,17 @@
+#!/bin/bash
+set -eu
+
+backupdir="/var/backups/sql"
+outfile="$backupdir/$(date '+%Y-%m-%d').sql.gz"
+
+if [[ -f "$outfile" ]]; then
+    echo "$outfile already exists, aborting." >&2
+    exit 1
+fi
+
+docker exec web_postgres_1 \
+    pg_dumpall -U studentenportal | gzip > "$outfile"
+
+# We keep 2 years of daily backups. With the current file size of 25 MB, that
+# means around 18 GB.
+find "$backupdir" -mtime +$((365 * 2)) -delete

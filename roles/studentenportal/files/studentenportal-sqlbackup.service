@@ -1,0 +1,7 @@
+[Unit]
+Description=Run SQL backup for studentenportal
+OnFailure=status-email@%n.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/studentenportal-sqlbackup

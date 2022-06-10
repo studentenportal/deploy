@@ -1,0 +1,8 @@
+[Unit]
+Description=Run SQL backup daily
+
+[Timer]
+OnCalendar=daily
+
+[Install]
+WantedBy=timers.target
