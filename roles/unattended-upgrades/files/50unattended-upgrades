@@ -13,8 +13,7 @@ Unattended-Upgrade::MinimalSteps "true";
 
 // Send mails on problems to root. 'mailx' must be installed.
 Unattended-Upgrade::Mail "root";
-// FIXME re-enable this once we're confident things work properly
-// Unattended-Upgrade::MailOnlyOnError "true";
+Unattended-Upgrade::MailOnlyOnError "true";
 
 // Equivalent to apt-get autoremove
 Unattended-Upgrade::Remove-Unused-Dependencies "true";
