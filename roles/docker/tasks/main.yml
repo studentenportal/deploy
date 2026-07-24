@@ -2,7 +2,7 @@
   apt:
     pkg:
       - docker.io
-      - docker-compose
+      - docker-compose-v2
 
 - name: Start docker service
   service: name=docker state=started enabled=yes

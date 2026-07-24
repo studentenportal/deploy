@@ -2,7 +2,7 @@
 # Servers (with connection parameters)
 ###############################################################################
 # Hostname                 Parameters
-vshsr01.nine.ch            ansible_ssh_user=root
+studentenportal.ch         ansible_ssh_user=root
 
 
 ###############################################################################
@@ -10,7 +10,7 @@ vshsr01.nine.ch            ansible_ssh_user=root
 ###############################################################################
 
 [ubuntu]
-vshsr01.nine.ch
+studentenportal.ch
 
 ###############################################################################
 # Infrastructure location
@@ -18,4 +18,4 @@ vshsr01.nine.ch
 
 # Nine, Zürich
 [nine]
-vshsr01.nine.ch
+studentenportal.ch

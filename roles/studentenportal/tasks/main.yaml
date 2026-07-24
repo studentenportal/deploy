@@ -68,7 +68,7 @@
     key: studentenportal
 
 - name: Set up studentenportal docker containers
-  docker_compose:
+  community.docker.docker_compose_v2:
     project_src: ~/web/
     files: docker-compose-production.yml
   become: true
