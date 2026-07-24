@@ -2,3 +2,5 @@
 users:
   - name: florian
     groups: sudo
+  - name: omega
+    groups: sudo

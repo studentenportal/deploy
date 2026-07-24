@@ -49,16 +49,18 @@
     name: pip
     state: latest
     extra_args: --user
+    break_system_packages: true
   become: true
   become_user: studentenportal
 
-- name: Install pip packages needed for ansible and docker
-  ansible.builtin.pip:
-    name: docker-compose
-    state: latest
-    extra_args: --user
-  become: true
-  become_user: studentenportal
+# - name: Install pip packages needed for ansible and docker
+#   ansible.builtin.pip:
+#     name: docker-compose
+#     state: latest
+#     extra_args: --user
+#     break_system_packages: true
+#   become: true
+#   become_user: studentenportal
 
 - name: Get user information
   ansible.builtin.getent:
@@ -71,14 +73,14 @@
     files: docker-compose-production.yml
   become: true
   become_user: studentenportal
-  register: docker_result
   environment:
     UID: "{{ getent_passwd['studentenportal'][1] }}"
     GID: "{{ getent_passwd['studentenportal'][2] }}"
 
 - name: Set up dehydrated account
   ansible.builtin.command:
-    cmd: docker exec -it {{ docker_result.services.nginx | list | first }} dehydrated --register --accept-terms
+    cmd: docker compose -f docker-compose-production.yml exec nginx dehydrated --register --accept-terms
+    chdir: ~/web/
   become: true
   become_user: studentenportal
   register: res
@@ -86,7 +88,8 @@
 
 - name: Do initial dehydrated run
   ansible.builtin.command:
-    cmd: docker exec -it {{ docker_result.services.nginx | list | first }} dehydrated --cron
+    cmd: docker compose -f docker-compose-production.yml exec nginx dehydrated --cron
+    chdir: ~/web/
   become: true
   become_user: studentenportal
   register: res
