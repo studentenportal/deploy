@@ -1,21 +1,20 @@
+---
 - name: Unlock passwordstore
-  assert:
+  ansible.builtin.assert:
     that: "'{{ lookup('passwordstore', 'email/team@studentenportal.ch directory=pass/') }}'"
 
 - name: Update apt cache
-  apt: update_cache=yes cache_valid_time=3600
-
+  ansible.builtin.apt: update_cache=yes cache_valid_time=3600
 - name: Install packages needed for ansible
-  apt:
+  ansible.builtin.apt:
     pkg:
       # - python3-apt
       - python3-pip
 
 - name: Upgrade system
-  apt: upgrade=yes
-
+  ansible.builtin.apt: upgrade=yes
 - name: Add users
-  user:
+  ansible.builtin.user:
     name: "{{ item.name }}"
     state: present
     groups: "{{ item.groups }}"
@@ -23,13 +22,13 @@
   loop: "{{ users }}"
 
 - name: Add SSH keys
-  authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ item.name }}"
     key: "{{ lookup('file', './files/id_rsa.' + item.name + '.pub') }}"
   loop: "{{ users }}"
 
 - name: Install useful system tools
-  apt:
+  ansible.builtin.apt:
     pkg:
       - molly-guard
       - htop
@@ -37,7 +36,6 @@
 # See https://wiki.archlinux.org/index.php/Systemd/Timers#MAILTO
 
 - name: Install systemd-email
-  copy: src=systemd-email dest=/usr/local/bin/systemd-email mode=+x
-
+  ansible.builtin.copy: src=systemd-email dest=/usr/local/bin/systemd-email mode=+x
 - name: Install status-email@.service
-  copy: src=status-email@.service dest=/etc/systemd/system/status-email@.service
+  ansible.builtin.copy: src=status-email@.service dest=/etc/systemd/system/status-email@.service

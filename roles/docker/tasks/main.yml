@@ -1,8 +1,9 @@
+---
 - name: Install Docker via Ubuntu package
-  apt:
+  ansible.builtin.apt:
     pkg:
       - docker.io
       - docker-compose-v2
 
 - name: Start docker service
-  service: name=docker state=started enabled=yes
+  ansible.builtin.service: name=docker state=started enabled=yes

@@ -1,13 +1,13 @@
 ---
 - name: Install unattended-upgrade packages
-  apt:
+  ansible.builtin.apt:
     pkg:
-    - unattended-upgrades
-    - update-notifier-common  # needed for reboot
-    - bsd-mailx  # needed for mails
+      - unattended-upgrades
+      - update-notifier-common # needed for reboot
+      - bsd-mailx # needed for mails
 
 - name: Configure apt for unattended upgrades
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/etc/apt/apt.conf.d/{{ item }}"
   loop:

@@ -1,40 +1,38 @@
 ---
-
 - name: Create studentenportal user
-  user:
+  ansible.builtin.user:
     name: studentenportal
     state: present
     groups: docker
     shell: /usr/sbin/nologin
 
-
 - name: Open firewall ports
-  include_role: name=firewall tasks_from=open-port
+  ansible.builtin.include_role: name=firewall tasks_from=open-port
   vars:
-      direction: in
-      port: "{{ item }}"
-      proto: tcp
+    direction: in
+    port: "{{ item }}"
+    proto: tcp
   loop:
-    - 80   # HTTP
-    - 443  # HTTPS
+    - 80 # HTTP
+    - 443 # HTTPS
 
 - name: Install docker environment file
-  template:
+  ansible.builtin.template:
     src: studentenportal.env
     dest: /home/studentenportal/studentenportal.env
     owner: studentenportal
     group: studentenportal
-    mode: 0600
+    mode: "0600"
 
 - name: Clone studentenportal web repository
-  git:
+  ansible.builtin.git:
     repo: https://github.com/studentenportal/web/
     dest: /home/studentenportal/web
   become: true
   become_user: studentenportal
 
 - name: Create data directories
-  file:
+  ansible.builtin.file:
     path: "/home/studentenportal/{{ item.name }}"
     state: directory
     owner: "{{ item.owner }}"
@@ -47,7 +45,7 @@
 
 # https://github.com/pypa/pip/issues/5366
 - name: Install newer pip
-  pip:
+  ansible.builtin.pip:
     name: pip
     state: latest
     extra_args: --user
@@ -55,7 +53,7 @@
   become_user: studentenportal
 
 - name: Install pip packages needed for ansible and docker
-  pip:
+  ansible.builtin.pip:
     name: docker-compose
     state: latest
     extra_args: --user
@@ -63,7 +61,7 @@
   become_user: studentenportal
 
 - name: Get user information
-  getent:
+  ansible.builtin.getent:
     database: passwd
     key: studentenportal
 
@@ -79,7 +77,7 @@
     GID: "{{ getent_passwd['studentenportal'][2] }}"
 
 - name: Set up dehydrated account
-  command:
+  ansible.builtin.command:
     cmd: docker exec -it {{ docker_result.services.nginx | list | first }} dehydrated --register --accept-terms
   become: true
   become_user: studentenportal
@@ -87,7 +85,7 @@
   changed_when: "'+ Account already registered!' not in res.stdout"
 
 - name: Do initial dehydrated run
-  command:
+  ansible.builtin.command:
     cmd: docker exec -it {{ docker_result.services.nginx | list | first }} dehydrated --cron
   become: true
   become_user: studentenportal
@@ -95,13 +93,11 @@
   changed_when: "'Skipping renew!' not in res.stdout"
 
 - name: Install sqlbackup script
-  copy: src=studentenportal-sqlbackup dest=/usr/local/bin mode=755
-
+  ansible.builtin.copy: src=studentenportal-sqlbackup dest=/usr/local/bin mode=755
 - name: Create sqlbackup directory
-  file: path=/var/backups/sql state=directory
-
+  ansible.builtin.file: path=/var/backups/sql state=directory
 - name: Install custom systemd files
-  copy: src="studentenportal-{{ item }}" dest=/etc/systemd/system/
+  ansible.builtin.copy: src="studentenportal-{{ item }}" dest=/etc/systemd/system/
   loop:
     - dehydrated.timer
     - dehydrated.service
@@ -109,7 +105,7 @@
     - sqlbackup.service
 
 - name: Enable timers
-  service: name="studentenportal-{{ item }}.timer" enabled=yes state=started daemon_reload=yes
+  ansible.builtin.service: name="studentenportal-{{ item }}.timer" enabled=yes state=started daemon_reload=yes
   loop:
     - dehydrated
     - sqlbackup
