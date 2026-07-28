@@ -39,3 +39,11 @@
   ansible.builtin.copy: src=systemd-email dest=/usr/local/bin/systemd-email mode=+x
 - name: Install status-email@.service
   ansible.builtin.copy: src=status-email@.service dest=/etc/systemd/system/status-email@.service
+
+- name: tux :3
+  ansible.builtin.copy:
+    src: ./files/motd
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: '0644'
