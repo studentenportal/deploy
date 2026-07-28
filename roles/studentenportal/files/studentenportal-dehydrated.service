@@ -4,4 +4,4 @@ OnFailure=status-email@%n.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/docker exec -i web_nginx_1 dehydrated --cron
+ExecStart=/usr/bin/docker exec -i web-nginx-1 dehydrated --cron
