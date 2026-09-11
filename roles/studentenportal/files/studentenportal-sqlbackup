@@ -9,7 +9,7 @@ if [[ -f "$outfile" ]]; then
     exit 1
 fi
 
-docker exec web_postgres_1 \
+docker exec web-postgres-1 \
     pg_dumpall -U studentenportal | gzip > "$outfile"
 
 # We keep 2 years of daily backups. With the current file size of 25 MB, that
