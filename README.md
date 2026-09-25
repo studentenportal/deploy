@@ -30,6 +30,8 @@ To log in to the server behind studentenportal.ch, ssh to
 `root@studentenportal.ch`. Most services run as the `studentenportal` user which
 has `nologin` as shell, so you'll need to `su studentenportal -s /bin/bash`.
 
+To log in to the backup server, ssh to `studentenportal@open-ost.i-ost.ch`.
+
 ## Relevant files
 
 All relevant data is in `/home/studentenportal` on the server.
@@ -73,7 +75,8 @@ by a proper one by running `dehydrated` via Ansible.`
 
 To deploy the Ansible-part, do the following:
 
-- Make sure you can access the server via SSH using key-based authentication.
+- Make sure you can access the server as well as the backup server via SSH using 
+  key-based authentication.
 - Clone the "pass" repository so it's inside this repository under pass/
 - Run `ansible-playbook site.yml`
 

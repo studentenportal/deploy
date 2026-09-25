@@ -1,0 +1,27 @@
+- name: Create backup user
+  ansible.builtin.user:
+    name: backup-sp
+    state: present
+    shell: /usr/sbin/nologin
+
+- name: Open firewall ports
+  ansible.builtin.include_role: name=firewall tasks_from=open-port
+  vars:
+    direction: in
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - 80
+    - 443
+
+- name: Create backup directories
+  ansible.builtin.file:
+    path: "/home/backup-sp/{{ item.name }}"
+    state: directory
+    owner: backup-sp
+    group: backup-sp
+  loop:
+    - name: postgres-data
+    - name: media
+
+

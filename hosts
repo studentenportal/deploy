@@ -3,7 +3,7 @@
 ###############################################################################
 # Hostname                 Parameters
 studentenportal.ch         ansible_ssh_user=root
-
+open-ost.i-ost.ch          ansible_ssh_user=studentenportal
 
 ###############################################################################
 # Server class
@@ -11,6 +11,7 @@ studentenportal.ch         ansible_ssh_user=root
 
 [ubuntu]
 studentenportal.ch
+open-ost.i-ost.ch          
 
 ###############################################################################
 # Infrastructure location
@@ -19,3 +20,11 @@ studentenportal.ch
 # Nine, Zürich
 [nine]
 studentenportal.ch
+
+###############################################################################
+# Backup server
+###############################################################################
+
+# INS
+[ins]
+open-ost.i-ost.ch          

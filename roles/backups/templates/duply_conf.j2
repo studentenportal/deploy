@@ -1,7 +1,7 @@
 GPG_PW='{{ lookup("passwordstore", "deploy/duply_backup directory=pass/") }}'
 
-TARGET='ftp://sl117.web.hostpoint.ch/duply-studentenportal'
-TARGET_USER='backup@studentenportal.ch'
+TARGET='ftp://open-ost.i-ost.ch/duply-studentenportal'
+TARGET_USER='studentenportal@open-ost.i-ost.ch'
 TARGET_PASS='{{ lookup("passwordstore", "vshsr/ftp-backup_backup@studentenportal.ch directory=pass/") }}'
 
 SOURCE='/'

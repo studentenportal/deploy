@@ -1,11 +1,17 @@
 ---
 - hosts: all
-  roles:
+  roles: 
     - { role: base, tags: ["base"] }
     - { role: firewall, tags: ["firewall"] }
-    - { role: backups, tags: ["backups"] }
     - { role: unattended-upgrades, tags: ["unattended-upgrades"] }
     - { role: docker, tags: ["docker"] }
-    - { role: watchtower, tags: ["watchtower"] }
+- hosts: nine
+  roles:
+    - { role: backups, tags: ["backups"] }
+    # FIXME: 
+    # - { role: watchtower, tags: ["watchtower"] }
     - { role: msmtpd, tags: ["msmtpd"] }
     - { role: studentenportal, tags: ["studentenportal"] }
+- hosts: ins
+  roles:
+    - { role: remote, tags: ["remote"] }
