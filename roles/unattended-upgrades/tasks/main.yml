@@ -1,5 +1,6 @@
 ---
 - name: Install unattended-upgrade packages
+  become: true
   ansible.builtin.apt:
     pkg:
       - unattended-upgrades
@@ -7,6 +8,7 @@
       - bsd-mailx # needed for mails
 
 - name: Configure apt for unattended upgrades
+  become: true
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "/etc/apt/apt.conf.d/{{ item }}"

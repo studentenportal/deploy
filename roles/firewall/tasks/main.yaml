@@ -1,13 +1,16 @@
 ---
-- name: Install ufw
-  ansible.builtin.apt: pkg=ufw update-cache=yes cache_valid_time=3600
-- name: Set ufw default incoming policy to deny
-  community.general.ufw: direction=incoming policy=deny
-- name: Set ufw default outgoing policy to allow
-  community.general.ufw: direction=outgoing policy=allow
-- name: Allow incoming ssh connections
-  community.general.ufw: rule=allow name=OpenSSH
-- name: Limit incoming ssh conection tries
-  community.general.ufw: rule=limit port=ssh proto=tcp
-- name: Make sure firewall is reloaded and enabled
-  community.general.ufw: state=enabled
+- name: ufw
+  become: true
+  block: 
+    - name: Install ufw
+      ansible.builtin.apt: pkg=ufw update-cache=yes cache_valid_time=3600
+    - name: Set ufw default incoming policy to deny
+      community.general.ufw: direction=incoming policy=deny
+    - name: Set ufw default outgoing policy to allow
+      community.general.ufw: direction=outgoing policy=allow
+    - name: Allow incoming ssh connections
+      community.general.ufw: rule=allow name=OpenSSH
+    - name: Limit incoming ssh conection tries
+      community.general.ufw: rule=limit port=ssh proto=tcp
+    - name: Make sure firewall is reloaded and enabled
+      community.general.ufw: state=enabled

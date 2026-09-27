@@ -3,7 +3,7 @@
 ###############################################################################
 # Hostname                 Parameters
 studentenportal.ch         ansible_ssh_user=root
-open-ost.i-ost.ch          ansible_ssh_user=studentenportal
+open-ost.i-ost.ch          ansible_ssh_user=open-ost
 
 ###############################################################################
 # Server class

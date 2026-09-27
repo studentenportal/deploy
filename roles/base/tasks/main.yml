@@ -4,16 +4,20 @@
     that: lookup('passwordstore', 'email/team@studentenportal.ch directory=pass/') | length > 0
 
 - name: Update apt cache
+  become: true
   ansible.builtin.apt: update_cache=yes cache_valid_time=3600
 - name: Install packages needed for ansible
+  become: true
   ansible.builtin.apt:
     pkg:
       # - python3-apt
       - python3-pip
 
 - name: Upgrade system
+  become: true
   ansible.builtin.apt: upgrade=yes
 - name: Add users
+  become: true
   ansible.builtin.user:
     name: "{{ item.name }}"
     state: present
@@ -22,12 +26,14 @@
   loop: "{{ users }}"
 
 - name: Add SSH keys
+  become: true
   ansible.posix.authorized_key:
     user: "{{ item.name }}"
     key: "{{ lookup('file', './files/id_rsa.' + item.name + '.pub') }}"
   loop: "{{ users }}"
 
 - name: Install useful system tools
+  become: true
   ansible.builtin.apt:
     pkg:
       - molly-guard

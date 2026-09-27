@@ -1,22 +1,116 @@
 ---
-- name: Install duply and dependencies
-  ansible.builtin.apt:
-    pkg:
-      - duply
-      - duplicity
-      - lftp
+- name: Create remote backup-sp HTTP authentication file
+  become: true
+  when: inventory_hostname in groups['ins']
+  community.general.htpasswd:
+    path: /home/open-ost/infra/docker/data/backup-sp/.htpasswd
+    name: "backup-sp"
+    password: '{{ lookup("passwordstore", "vshsr/ftp-backup_backup@studentenportal.ch directory=pass/") }}'
+    crypt_scheme: bcrypt
+    owner: root
+    group: root
+    mode: "0600"
 
-- name: Create duply profile directory
-  ansible.builtin.file: path=/root/.duply/rootfs state=directory mode=0700
-- name: Create duply config
-  ansible.builtin.template: src=duply_conf.j2 dest=/root/.duply/rootfs/conf
-- name: Create duply exclude file
-  ansible.builtin.copy: src=duply_exclude dest=/root/.duply/rootfs/exclude
-- name: Install duply systemd files
-  ansible.builtin.copy: src="duply.{{ item }}" dest=/etc/systemd/system/
-  loop:
-    - timer
-    - service
+- name: Setup backup locally
+  when: inventory_hostname in groups['nine']
+  block:
+    - name: Install restic
+      ansible.builtin.apt:
+        name: restic
+        state: present
+        update_cache: true
 
-- name: Enable duply timer
-  ansible.builtin.service: name=duply.timer enabled=yes state=started daemon_reload=yes
+    - name: Create restic configuration directory
+      ansible.builtin.file:
+        path: /etc/restic
+        state: directory
+        owner: root
+        group: root
+        mode: "0700"
+
+    - name: Install restic environment file
+      ansible.builtin.template:
+        src: restic.env.j2
+        dest: /etc/restic/env
+        owner: root
+        group: root
+        mode: "0600"
+
+    - name: Install backup script
+      ansible.builtin.template:
+        src: run-restic-backup.sh.j2
+        dest: /usr/local/sbin/run-restic-backup
+        owner: root
+        group: root
+        mode: "0700"
+
+    - name: Check whether the restic repository exists
+      ansible.builtin.shell: |
+        set -a
+        . /etc/restic/env
+        set +a
+        restic cat config
+      args:
+        executable: /bin/bash
+      register: restic_repository_check
+      changed_when: false
+      failed_when: false
+      no_log: true
+
+    - name: Initialize the restic repository once
+      ansible.builtin.shell: |
+        set -a
+        . /etc/restic/env
+        set +a
+        restic init
+      args:
+        executable: /bin/bash
+      when: restic_repository_check.rc != 0
+      no_log: true
+
+    - name: Install systemd service
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/restic-backup.service
+        owner: root
+        group: root
+        mode: "0644"
+        content: |
+          [Unit]
+          Description=Encrypted restic backup
+          Wants=network-online.target
+          After=network-online.target
+          OnFailure=status-email@%n.service
+
+          [Service]
+          Type=oneshot
+          ExecStart=/usr/local/sbin/run-restic-backup
+          Nice=10
+          IOSchedulingClass=best-effort
+
+
+    # TODO: weekly?
+    - name: Install systemd timer
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/restic-backup.timer
+        owner: root
+        group: root
+        mode: "0644"
+        content: |
+          [Unit]
+          Description=Run restic backup daily
+
+          [Timer]
+          OnCalendar=*-*-* 02:30:00
+          Persistent=true
+          RandomizedDelaySec=30m
+
+          [Install]
+          WantedBy=timers.target
+
+    - name: Enable backup timer
+      ansible.builtin.systemd:
+        name: restic-backup.timer
+        enabled: true
+        state: started
+        daemon_reload: true
+

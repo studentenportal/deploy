@@ -30,7 +30,8 @@ To log in to the server behind studentenportal.ch, ssh to
 `root@studentenportal.ch`. Most services run as the `studentenportal` user which
 has `nologin` as shell, so you'll need to `su studentenportal -s /bin/bash`.
 
-To log in to the backup server, ssh to `studentenportal@open-ost.i-ost.ch`.
+To log in to the backup server, ssh to `open-ost@open-ost.i-ost.ch`. You need to
+be inside of the OST network for it to work (VPN).
 
 ## Relevant files
 

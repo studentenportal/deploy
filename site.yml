@@ -5,13 +5,8 @@
     - { role: firewall, tags: ["firewall"] }
     - { role: unattended-upgrades, tags: ["unattended-upgrades"] }
     - { role: docker, tags: ["docker"] }
+    - { role: backups, tags: ["backups"] }
 - hosts: nine
   roles:
-    - { role: backups, tags: ["backups"] }
-    # FIXME: 
-    # - { role: watchtower, tags: ["watchtower"] }
     - { role: msmtpd, tags: ["msmtpd"] }
     - { role: studentenportal, tags: ["studentenportal"] }
-- hosts: ins
-  roles:
-    - { role: remote, tags: ["remote"] }

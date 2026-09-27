@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+set -Eeuo pipefail
+
+set -a
+. /etc/restic/env
+set +a
+
+restic backup \
+  /etc \
+  /home \
+  /root \
+  /var/backups \
+  --host backup-sp
+
+restic forget \
+  --keep-daily 7 \
+  --keep-weekly 4 \
+  --keep-monthly 12 \
+  --prune
