@@ -11,6 +11,12 @@ restic backup \
   /home \
   /root \
   /var/backups \
+  /var/lib \
+  --exclude '/home/*/.cache' \
+  --exclude '/home/*/.local/share/Trash' \
+  --exclude '/home/studentenportal/postgres-data' \
+  --exclude /var/lib/docker/overlay2 \
+  --exclude /var/lib/docker/containers \
   --host backup-sp
 
 restic forget \
