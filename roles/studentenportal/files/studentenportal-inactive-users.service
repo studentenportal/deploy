@@ -1,0 +1,7 @@
+[Unit]
+Description=Check for inactive users
+OnFailure=status-email@%n.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/studentenportal-inactive-users

@@ -99,6 +99,8 @@
   ansible.builtin.copy: src=studentenportal-sqlbackup dest=/usr/local/bin mode=755
 - name: Create sqlbackup directory
   ansible.builtin.file: path=/var/backups/sql state=directory
+- name: Install inactive-users script
+  ansible.builtin.copy: src=studentenportal-inactive-users dest=/usr/local/bin mode=755
 - name: Install custom systemd files
   ansible.builtin.copy: src="studentenportal-{{ item }}" dest=/etc/systemd/system/
   loop:
@@ -106,9 +108,12 @@
     - dehydrated.service
     - sqlbackup.timer
     - sqlbackup.service
+    - inactive-users.timer
+    - inactive-users.service
 
 - name: Enable timers
   ansible.builtin.service: name="studentenportal-{{ item }}.timer" enabled=yes state=started daemon_reload=yes
   loop:
     - dehydrated
     - sqlbackup
+    - inactive-users

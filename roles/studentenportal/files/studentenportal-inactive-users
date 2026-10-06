@@ -1,0 +1,11 @@
+#!/bin/bash
+set -eu
+
+logdir="/var/log/studentenportal/inactive-users"
+logfile_notify="$logdir/$(date '+%Y-%m-%d')-studentenportal-inactivity-notify.log"
+logfile_purge="$logdir/$(date '+%Y-%m-%d')-studentenportal-inactivity-purge.log"
+
+docker exec web-studentenportal-1 python3 manage.py notify_inactive_users > "$logfile_notify" 2>&1
+docker exec web-studentenportal-1 python3 manage.py purge_inactive_users > "$logfile_purge" 2>&1
+
+find "$logdir" -mtime +$((365 * 2)) -delete
